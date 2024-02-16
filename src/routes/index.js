@@ -1,8 +1,10 @@
 const { ApiResponse } = require('../utils/ApiResponse.js')
 const homeRouter = require('./home.routes.js')
+const userRouter = require('./user.routes.js')
 
 module.exports = (app) => {
   app.use('/', homeRouter)
+  app.use('/User', userRouter)
 
   app.use('*', (req, res) => {
     return res

@@ -23,7 +23,20 @@ app.use(
 
 app.use(express.json({ limit: '16kb' }))
 app.use(express.urlencoded({ extended: true, limit: '16kb' }))
-app.use(morgan('dev'))
+app.use(
+  morgan(function (tokens, req, res) {
+    if (process.env.NODE_ENV === 'production')
+      return [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'),
+        '-',
+        tokens['response-time'](req, res),
+        'ms',
+      ].join(' ')
+  })
+)
 
 // Extended: https://swagger.io/specification/#infoObject
 const swaggerOptions = {
@@ -36,7 +49,16 @@ const swaggerOptions = {
       contact: {
         name: 'Jerald Victor J',
       },
-      servers: ['http://localhost:3000'],
+      servers: [
+        {
+          url: 'http://localhost:3000',
+          description: 'Development server',
+        },
+        {
+          url: 'http://localhost:3000',
+          description: 'Production server',
+        },
+      ],
     },
   },
   apis: ['**/*.controller.js'],
