@@ -15,3 +15,20 @@ const { asyncHandler } = require('../../utils/asyncHandler.js')
 module.exports.homeController = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, 'OK', 'Hello World'))
 })
+
+/**
+ * @swagger
+ * /Safe:
+ *  get:
+ *    tags:
+ *      - Secured API
+ *    description: Use to Check if user is Logged in
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
+module.exports.safeController = asyncHandler(async (req, res) => {
+  return res
+    .status(200)
+    .json(new ApiResponse(200, 'Welcome', 'User is logged in'))
+})

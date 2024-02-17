@@ -1,5 +1,9 @@
 const { expect } = require('@jest/globals')
-const { checkLogin, generateAccessToken } = require('./auth.function')
+const {
+  checkLogin,
+  generateAccessToken,
+  validateAccessToken,
+} = require('./auth.function')
 
 const { User } = require('../../db/models/index.js')
 const { newUser } = require('../user/user.function.js')
@@ -125,6 +129,43 @@ describe('generateAccessToken (Generate Access Token)', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
       expect(error).toHaveProperty('message', 'name is required')
+    }
+  })
+})
+
+describe('validateAccessToken (Validate Access Token)', () => {
+  it('When JWT is valid -> return user', async () => {
+    const expected = expect.objectContaining({
+      id: expect.any(Number),
+      name: expect.any(String),
+      user_name: expect.any(String),
+      password: expect.any(String),
+    })
+
+    const user = await checkLogin({
+      user_name: 'john',
+      password: 'john',
+    })
+
+    const token = await generateAccessToken(user)
+    const actual = await validateAccessToken(token)
+
+    expect(actual).toEqual(expected)
+  })
+
+  it('When JWT is invalid -> throw error', async () => {
+    try {
+      const token = await generateAccessToken({
+        id: 333,
+        name: 'john',
+        user_name: 'john',
+      })
+
+      const actual = await validateAccessToken(token)
+      expect(actual).toThrow(/Invalid/)
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error)
+      expect(error).toHaveProperty('message', 'Invalid access token')
     }
   })
 })

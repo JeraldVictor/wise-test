@@ -23,6 +23,7 @@ module.exports.checkLogin = async ({ user_name, password }) => {
 
   return user
 }
+
 module.exports.generateAccessToken = async ({ id, name, user_name }) => {
   if (!id) {
     throw new ApiError(422, 'id is required')
@@ -43,4 +44,22 @@ module.exports.generateAccessToken = async ({ id, name, user_name }) => {
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
   )
+}
+
+module.exports.validateAccessToken = async (token) => {
+  try {
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+    const user = await User.findOne({
+      where: {
+        id: decodedToken?.id,
+      },
+    })
+
+    if (!user) {
+      throw new ApiError(401, 'Invalid access token')
+    }
+    return user
+  } catch (error) {
+    throw new ApiError(401, error?.message || 'Invalid access token')
+  }
 }
