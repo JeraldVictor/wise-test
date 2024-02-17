@@ -1,3 +1,4 @@
+const { expect } = require('@jest/globals')
 const { getUsers, newUser } = require('./user.function')
 const { User } = require('../../db/models')
 
@@ -62,11 +63,11 @@ describe('User Model Functions', () => {
 
   it('newUser (with no user_name) -> throw error', async () => {
     try {
-      const expect = await newUser({
+      const expected = await newUser({
         name: 'johm',
         password: 'john',
       })
-      expect(expect).toThrow(/required/)
+      expect(expected).toThrow(/required/)
     } catch (error) {
       expect(error).toBeInstanceOf(Error)
       expect(error).toHaveProperty('message', 'user_name is required')

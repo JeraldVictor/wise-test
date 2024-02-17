@@ -7,7 +7,7 @@ const { getUsers, newUser } = require('./user.function.js')
  * /User:
  *  get:
  *    tags:
- *      - 📢 Users APIs
+ *      - 👱🏻‍♀️ Users APIs
  *    description: Get List of Users
  *    responses:
  *      '200':
@@ -26,7 +26,7 @@ module.exports.listUsers = asyncHandler(async (req, res) => {
  *  post:
  *    description: Create a User
  *    tags:
- *      - 📢 Users APIs
+ *      - 👱🏻‍♀️ Users APIs
  *    requestBody:
  *      content:
  *        application/json:

@@ -8,6 +8,7 @@ const app = express()
 const { CORS_ORIGIN } = require('./constants.js')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
+const cookieParser = require('cookie-parser')
 
 dotenv.config({
   path: './.env',
@@ -37,6 +38,7 @@ app.use(
       ].join(' ')
   })
 )
+app.use(cookieParser())
 
 // Extended: https://swagger.io/specification/#infoObject
 const swaggerOptions = {
