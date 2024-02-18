@@ -1,6 +1,7 @@
 'use strict'
 const { Model } = require('sequelize')
 const dayjs = require('dayjs')
+
 module.exports = (sequelize, DataTypes) => {
   class Slots extends Model {
     static associate(models) {
@@ -38,12 +39,18 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         get() {
           const value = this.getDataValue('check_in_time')
-          return value ? dayjs(value).format('HH:mm:ss') : value
+          return value ? dayjs(value).format('H:mm:ss') : value
+        },
+        set(value) {
+          const day = this.getDataValue('check_in_day')
+          this.setDataValue(
+            'check_in_time',
+            dayjs(`${day} ${value.format('H:mm:ss')}`).toDate()
+          )
         },
       },
       check_out_day: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
         set(value) {
           this.setDataValue('check_out_day', dayjs(value).format('YYYY-MM-DD'))
         },
@@ -56,7 +63,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         get() {
           const value = this.getDataValue('check_out_time')
-          return value ? dayjs(value).format('HH:mm:ss') : value
+          return value ? dayjs(value).format('H:mm:ss') : value
+        },
+        set(value) {
+          const day = this.getDataValue('check_out_day')
+          this.setDataValue(
+            'check_out_time',
+            dayjs(`${day} ${value.format('H:mm:ss')}`).toDate()
+          )
         },
       },
       hours: {
@@ -66,11 +80,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.VIRTUAL,
         get() {
           if (this.check_in_day && this.check_in_time) {
-            dayjs(
-              `${this.check_in_day} ${dayjs(this.check_in_time).format(
-                'HH:mm:ss'
-              )}`
-            )
+            return dayjs(
+              `${this.check_in_day} ${this.check_in_time}`,
+              'DD-MM-YYYY H:mm:ss'
+            ).toDate()
           } else {
             return null
           }
@@ -83,11 +96,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.VIRTUAL,
         get() {
           if (this.check_out_day && this.check_out_time) {
-            dayjs(
-              `${this.check_out_day} ${dayjs(this.check_out_time).format(
-                'HH:mm:ss'
-              )}`
-            )
+            return dayjs(
+              `${this.check_out_day} ${this.check_out_time}`,
+              'DD-MM-YYYY H:mm:ss'
+            ).toDate()
           } else {
             return null
           }
