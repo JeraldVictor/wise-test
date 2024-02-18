@@ -41,6 +41,17 @@ module.exports = (sequelize, DataTypes) => {
           return value ? dayjs(value).format('HH:mm:ss') : value
         },
       },
+      check_out_day: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        set(value) {
+          this.setDataValue('check_out_day', dayjs(value).format('YYYY-MM-DD'))
+        },
+        get() {
+          const value = this.getDataValue('check_in_day')
+          return value ? dayjs(value, 'YYYY-MM-DD').format('DD-MM-YYYY') : value
+        },
+      },
       check_out_time: {
         type: DataTypes.DATE,
         get() {
@@ -50,6 +61,40 @@ module.exports = (sequelize, DataTypes) => {
       },
       hours: {
         type: DataTypes.FLOAT,
+      },
+      check_in: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          if (this.check_in_day && this.check_in_time) {
+            dayjs(
+              `${this.check_in_day} ${dayjs(this.check_in_time).format(
+                'HH:mm:ss'
+              )}`
+            )
+          } else {
+            return null
+          }
+        },
+        set(value) {
+          throw new Error('Do not try to set the `check_in` value!')
+        },
+      },
+      check_out: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          if (this.check_out_day && this.check_out_time) {
+            dayjs(
+              `${this.check_out_day} ${dayjs(this.check_out_time).format(
+                'HH:mm:ss'
+              )}`
+            )
+          } else {
+            return null
+          }
+        },
+        set(value) {
+          throw new Error('Do not try to set the `check_out` value!')
+        },
       },
     },
     {
