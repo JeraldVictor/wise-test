@@ -51,17 +51,17 @@ const swaggerOptions = {
       contact: {
         name: 'Jerald Victor J',
       },
-      servers: [
-        {
-          url: 'http://localhost:3000',
-          description: 'Development server',
-        },
-        {
-          url: 'http://localhost:3000',
-          description: 'Production server',
-        },
-      ],
     },
+    servers: [
+      {
+        url: 'https://wise.jerald.dev',
+        description: 'Production server',
+      },
+      {
+        url: 'http://localhost:3000',
+        description: 'Development server',
+      },
+    ],
   },
   apis: ['**/*.controller.js'],
 }
