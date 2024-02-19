@@ -52,7 +52,7 @@ module.exports.login = asyncHandler(async (req, res) => {
 /**
  * @swagger
  * /Auth/Logout:
- *  post:
+ *  get:
  *    description: Logout User
  *    tags:
  *      - 🔐 Auth APIs
