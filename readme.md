@@ -7,6 +7,30 @@ This project implements an Institute Instructor Attendance System, allowing inst
 - **Main Project:** [wise.jerald.dev](https://wise.jerald.dev/)
 - **Swagger UI:** [wise.jerald.dev/api-docs](https://wise.jerald.dev/api-docs)
 
+**Project Links:**
+
+- **Main Project:** jerald.dev (placeholder)
+- **Swagger UI:** jerald.dev/swagger (placeholder)
+
+**Instructor Credentials for Testing:**
+**Test User 1:**
+
+```json
+{
+   "user_name": user1",
+   "password": user1"
+}
+```
+
+**Test User 2:**
+
+```json
+{
+   "user_name": user2",
+   "password": user2"
+}
+```
+
 **Key Features:**
 
 - **CheckIn/Out Functionality:** Instructors can effortlessly check in and out using `/Check/In` and `/Check/Out` endpoints, providing check-in/out day and time for accurate attendance tracking.
