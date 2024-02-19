@@ -17,8 +17,8 @@ This project implements an Institute Instructor Attendance System, allowing inst
 
 ```json
 {
-   "user_name": user1",
-   "password": user1"
+  "user_name": "user1",
+  "password": "user1"
 }
 ```
 
@@ -26,8 +26,8 @@ This project implements an Institute Instructor Attendance System, allowing inst
 
 ```json
 {
-   "user_name": user2",
-   "password": user2"
+  "user_name": "user2",
+  "password": "user2"
 }
 ```
 
